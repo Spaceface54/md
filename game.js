@@ -10,6 +10,7 @@ class gamescene extends Phaser.Scene{
         this.holdx = 0;
         this.holdy = 0;
         this.holdmessage;
+        this.timerevent;
     }
     preload(){
         this.load.path ="./assets/";
@@ -41,7 +42,11 @@ class gamescene extends Phaser.Scene{
         lt.on('pointerdown', (pointer) =>{
             this.displaymessage(this, pointer.downX, pointer.downY, this.messagelist[Math.floor(Math.random()*this.messagelist.length)]);
             this.mousehold = true;
-            this.time.addEvent({
+            if(this.timerevent != undefined){
+                this.time.removeEvent(this.timerevent);
+            }
+            this.holdsignal = true;
+            this.timerevent = this.time.addEvent({
                 delay: 500,
                 loop: false,
                 callback: () =>{
@@ -50,6 +55,7 @@ class gamescene extends Phaser.Scene{
                         this.mouseholdcounter = 1;
                         this.holdx = pointer.downX;
                         this.holdy = pointer.downY;
+                        this.holdsignal = false;
                     }
                 }
             });
