@@ -46,6 +46,30 @@ class gamescene extends Phaser.Scene{
             });
 
         })
+        let counter = 0;
+        lt.on('pointermove', (pointer) =>{
+            if(counter >=10){
+                let xoffset = 20;
+                let yoffset = 20;
+                let x = pointer.x;
+                let y = pointer.y;
+                let message = this.add.text(x, y, messagelist[Math.floor(Math.random()*messagelist.length)]);
+                //console.log(Phaser.Display.Color.GetColor(255/(w/(x+xoffset)), 255/(h/y), 255/((w*h)/(x*y))));
+                message.setTint(Phaser.Display.Color.GetColor(255/(w/(x+xoffset)), 255/(h/(y+yoffset)), 255/((w+h)/(x+y))));
+                message.setOrigin(0.5, 0.5);
+                this.tweens.add({
+                    targets: message,
+                    y: `-=${2 * h*0.1}`,
+                    alpha: { from: 1, to: 0 },
+                    duration: 2000,
+                    onComplete: () => message.destroy()
+                });
+                counter = 0;
+            }
+            else{
+                counter ++;
+            }
+        })
     }
     update(){
 
