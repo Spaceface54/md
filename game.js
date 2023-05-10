@@ -25,45 +25,43 @@ class gamescene extends Phaser.Scene{
             repeat: -1,
             yoyo: true
         });
-        tap.on('pointerdown', () =>{
-            tap.destroy();
-        })
-        lt.on('pointerdown', (pointer) =>{
+
+        function colorvaluegen(x = 0, y = 0){
+            let rgb = [3];
+            rgb[0] = 255;
+            rgb[1] = Math.abs((255/((w/x)))-(127.5/(h/y)));
+            rgb[2] = Math.abs((255/((h/y)))-(127.5/(w/x)));
+            return rgb;
+        }
+
+        function displaymessage(obj, x = 0, y = 0, messagetext = ""){
             let xoffset = 20;
             let yoffset = 20;
-            let x = pointer.downX;
-            let y = pointer.downY;
-            let message = this.add.text(x, y, messagelist[Math.floor(Math.random()*messagelist.length)]);
-            console.log(Phaser.Display.Color.GetColor(255/(w/(x+xoffset)), 255/(h/y), 255/((w*h)/(x*y))));
-            message.setTint(Phaser.Display.Color.GetColor(255/(w/(x+xoffset)), 255/(h/(y+yoffset)), 255/((w+h)/(x+y))));
+            let rgb = colorvaluegen(x, y);
+            let message = obj.add.text(x, y, messagetext);
+            console.log(Phaser.Display.Color.GetColor(rgb[0], rgb[1], rgb[2]));
+            message.setTint(Phaser.Display.Color.GetColor(rgb[0], rgb[1], rgb[2]));
             message.setOrigin(0.5, 0.5);
-            this.tweens.add({
+            obj.tweens.add({
                 targets: message,
                 y: `-=${2 * h*0.1}`,
                 alpha: { from: 1, to: 0 },
-                duration: 2000,
+                duration: 3000,
                 onComplete: () => message.destroy()
             });
+        }
 
+        tap.on('pointerdown', (pointer) =>{
+            displaymessage(this, pointer.downX, pointer.downY, "Thanks! \nTap some more! \nYou can also drag!");
+            tap.destroy();
+        })
+        lt.on('pointerdown', (pointer) =>{
+            displaymessage(this, pointer.downX, pointer.downY, messagelist[Math.floor(Math.random()*messagelist.length)]);
         })
         let counter = 0;
         lt.on('pointermove', (pointer) =>{
             if(counter >=10){
-                let xoffset = 20;
-                let yoffset = 20;
-                let x = pointer.x;
-                let y = pointer.y;
-                let message = this.add.text(x, y, messagelist[Math.floor(Math.random()*messagelist.length)]);
-                //console.log(Phaser.Display.Color.GetColor(255/(w/(x+xoffset)), 255/(h/y), 255/((w*h)/(x*y))));
-                message.setTint(Phaser.Display.Color.GetColor(255/(w/(x+xoffset)), 255/(h/(y+yoffset)), 255/((w+h)/(x+y))));
-                message.setOrigin(0.5, 0.5);
-                this.tweens.add({
-                    targets: message,
-                    y: `-=${2 * h*0.1}`,
-                    alpha: { from: 1, to: 0 },
-                    duration: 2000,
-                    onComplete: () => message.destroy()
-                });
+                displaymessage(this, pointer.x, pointer.y, messagelist[Math.floor(Math.random()*messagelist.length)]);
                 counter = 0;
             }
             else{
