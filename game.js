@@ -10,6 +10,9 @@ class gamescene extends Phaser.Scene{
     create(){
         //this.scale.startFullscreen();
         let messagelist = ["Love You!", "You are my best mom!", "#1 MOM"]
+        for( let i  = 0; i<messagelist.length; i++){
+            messagelist[i] = messagelist[i]+"\n❤️";
+        }
         let w = this.game.config.width;
         let h = this.game.config.height;
         let lt = this.add.image(w*0.5, h*0.5, "letter");
@@ -38,7 +41,7 @@ class gamescene extends Phaser.Scene{
             let xoffset = 20;
             let yoffset = 20;
             let rgb = colorvaluegen(x, y);
-            let message = obj.add.text(x, y, messagetext);
+            let message = obj.add.text(x, y, messagetext, {align: "center"});
             console.log(Phaser.Display.Color.GetColor(rgb[0], rgb[1], rgb[2]));
             message.setTint(Phaser.Display.Color.GetColor(rgb[0], rgb[1], rgb[2]));
             message.setOrigin(0.5, 0.5);
@@ -70,7 +73,7 @@ class gamescene extends Phaser.Scene{
         })
     }
     update(){
-
+        
     }
 }
 
