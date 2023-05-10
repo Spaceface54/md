@@ -29,8 +29,13 @@ class gamescene extends Phaser.Scene{
             tap.destroy();
         })
         lt.on('pointerdown', (pointer) =>{
-            console.log((Math.random()*messagelist.length));
-            let message = this.add.text(pointer.downX, pointer.downY, messagelist[Math.floor(Math.random()*messagelist.length)]);
+            let xoffset = 20;
+            let yoffset = 20;
+            let x = pointer.downX;
+            let y = pointer.downY;
+            let message = this.add.text(x, y, messagelist[Math.floor(Math.random()*messagelist.length)]);
+            console.log(Phaser.Display.Color.GetColor(255/(w/(x+xoffset)), 255/(h/y), 255/((w*h)/(x*y))));
+            message.setTint(Phaser.Display.Color.GetColor(255/(w/(x+xoffset)), 255/(h/(y+yoffset)), 255/((w+h)/(x+y))));
             message.setOrigin(0.5, 0.5);
             this.tweens.add({
                 targets: message,
