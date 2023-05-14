@@ -3,7 +3,7 @@ class gamescene extends Phaser.Scene{
         super("gamescene");
         this.mousehold = false;
         this.mouseholdcounter = 0;
-        this.messagelist = ["Love You!", "You are my best mom!", "#1 MOM"]
+        this.messagelist = ["Love You!", "You are my best mom!", "#1 MOM", "To my number one: wife, happy mother's day", "Justin was here", "10/10", "Thank you!"];
         for( let i  = 0; i<this.messagelist.length; i++){
             this.messagelist[i] = this.messagelist[i]+"\n❤️";
         }
